@@ -69,8 +69,9 @@ def main():
             threading.Thread(
                 target=local_apply, args=(run["run_id"], store), daemon=True
             ).start()
-    print("AquaAgent local development API: http://127.0.0.1:8000/api", flush=True)
-    ThreadingHTTPServer(("127.0.0.1", 8000), LocalHandler).serve_forever()
+    port = int(os.getenv("AQUA_LOCAL_API_PORT", "8000"))
+    print(f"AquaAgent local development API: http://127.0.0.1:{port}/api", flush=True)
+    ThreadingHTTPServer(("127.0.0.1", port), LocalHandler).serve_forever()
 
 
 if __name__ == "__main__":

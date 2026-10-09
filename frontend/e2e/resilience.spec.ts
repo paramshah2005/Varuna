@@ -57,9 +57,11 @@ test("WebGL fallback, schema errors, connection edits and JSON import", async ({
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify(scenario)),
   });
-  await expect(page.getByRole("status")).toContainText(
-    "Scenario imported and validated",
-  );
+  await expect(
+    page
+      .getByRole("status")
+      .filter({ hasText: "Scenario imported and validated" }),
+  ).toContainText("Scenario imported and validated");
 });
 test("infeasible plans cannot be approved and station closure reroutes", async ({
   page,

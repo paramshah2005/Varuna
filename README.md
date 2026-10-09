@@ -78,6 +78,32 @@ npm run e2e
 
 Playwright requires the local frontend and API to be running. It uses desktop and mobile projects. Fixture exports, model versions, per-zone/network balances, constraint failures, schema errors, ownership, idempotency, version isolation, durable graph restart, station filters, and independent pedestrian routing are tested. See `docs/VERIFICATION.md` for observed results and the boundary between local tests and cloud verification.
 
+Browser tests edit applied scenarios. Run them against separate local storage and ports to preserve your demonstration session. Start an isolated API from the root in a separate terminal:
+
+```powershell
+$env:LOCAL_ROOT='.local/qa'
+$env:AQUA_LOCAL_API_PORT='8001'
+.venv/Scripts/python.exe -m backend.api.local
+```
+
+Start its frontend in another terminal:
+
+```powershell
+cd frontend
+$env:AQUA_LOCAL_API_URL='http://127.0.0.1:8001'
+npm run dev -- --port 5180 --strictPort
+```
+
+Then run the browser suite from a third terminal:
+
+```powershell
+cd frontend
+$env:AQUA_E2E_BASE_URL='http://127.0.0.1:5180'
+npm run e2e
+```
+
+A current verified run pauses for your decision. Use **Review response plan** to jump to its approval controls. If the applied scenario has changed, the workspace shows **Rerun required** and provides a button for the current applied version. Rerunning clears the draft-preview display but keeps draft inputs; unapplied edits are not part of the new run.
+
 ## Deploy and clean up
 
 Follow `docs/DEPLOYMENT.md`. Infrastructure uses Cognito, API Gateway HTTP/WebSocket, seven Python Lambdas, Step Functions Standard, DynamoDB, private S3, an existing Secrets Manager secret, and CloudWatch logs/alarms. Git-connected Amplify Hosting serves the frontend. No AWS resources have been created by local synthesis.

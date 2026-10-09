@@ -2,7 +2,7 @@
 
 Source destination: https://github.com/paramshah2005/Varuna, branch `main`.
 
-Local implementation is verified with 54 backend tests, two frontend tests and ten desktop/mobile browser flows. Production frontend build, Linux Python 3.12 packaging and CDK synthesis pass. Live Groq investigation and two batched zone-agent negotiation rounds have recorded evidence. Browser report downloads are verified, and demand/delivery, gross external supply and unmet-demand charts use the same engine data as the downloaded report.
+Local implementation is verified with 54 backend tests, two frontend tests and twelve desktop/mobile browser flows. Production frontend build, Linux Python 3.12 packaging and CDK synthesis pass. Live Groq investigation and two batched zone-agent negotiation rounds have recorded evidence. Browser report downloads are verified, and demand/delivery, gross external supply and unmet-demand charts use the same engine data as the downloaded report. Stale approvals show an actionable rerun message; current approvals provide direct plan-review navigation. Browser QA can use separate storage and ports to preserve the demonstration session.
 
 Six logical zone roles share one model completion per round. Deterministic coordination and the actual-scenario verifier control feasibility. A valid model proposal need not become the final approved plan. Provider errors and no agreement retain visible fallback. All facilities, routes, weather inputs and simulation units remain synthetic.
 

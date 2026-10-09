@@ -224,10 +224,11 @@ function App() {
         crypto.randomUUID(),
       );
       decisionKey.current = crypto.randomUUID();
+      setPreview(null);
       setRunId(response.run_id);
       setNavId("lab");
       setNotice(
-        "Run execution and dashboard viewing are independent. This view shows the latest persisted simulation state.",
+        `Run started from applied scenario v${applied.scenario_version}. Unapplied draft edits are not included. Review the response plan when it is ready.`,
       );
     });
   }
@@ -836,11 +837,12 @@ function App() {
                   </p>
                 </div>
                 <span
-                  className={`badge ${run?.status === "completed" ? "green" : "blue"}`}
+                  className={`badge ${run && !currentRun && run.status === "awaiting_approval" ? "amber" : run?.status === "completed" ? "green" : "blue"}`}
                 >
                   <span
                     className={
                       run &&
+                      currentRun &&
                       ![
                         "completed",
                         "infeasible",
@@ -851,14 +853,52 @@ function App() {
                         : ""
                     }
                   />
-                  {run ? statuses[run.status] || run.status : "Starting run"}
+                  {run && !currentRun && run.status === "awaiting_approval"
+                    ? "Rerun required"
+                    : run
+                      ? statuses[run.status] || run.status
+                      : "Starting run"}
                 </span>
               </div>
               {!currentRun && run && (
-                <div className="notice">
-                  This run belongs to scenario {run.scenario_id} v
-                  {run.scenario_version}. The applied scenario changed; its
-                  approval is invalidated.
+                <div className="notice approval-guidance" role="status">
+                  <div>
+                    <strong>Scenario changed · approval unavailable</strong>
+                    <p>
+                      This run uses {run.scenario_id} v{run.scenario_version};
+                      the applied scenario is {applied?.scenario_id} v
+                      {applied?.scenario_version}. Rerun the applied version to
+                      generate a new plan. Unapplied draft edits are not
+                      included.
+                    </p>
+                  </div>
+                  <Button onClick={start} disabled={busy || !applied}>
+                    Rerun applied scenario v{applied?.scenario_version}
+                  </Button>
+                </div>
+              )}
+              {currentRun && run?.status === "awaiting_approval" && (
+                <div className="notice approval-guidance" role="status">
+                  <div>
+                    <strong>Your decision is needed</strong>
+                    <p>
+                      Review the proposed actions, then approve or reject the
+                      exact plan below. The run waits here until you decide.
+                    </p>
+                  </div>
+                  <Button
+                    disabled={!results.plan}
+                    onClick={() => {
+                      const panel = document.getElementById("response-plan");
+                      panel?.scrollIntoView({
+                        behavior: reduced() ? "instant" : "smooth",
+                        block: "start",
+                      });
+                      panel?.focus({ preventScroll: true });
+                    }}
+                  >
+                    Review response plan
+                  </Button>
                 </div>
               )}
               <div className="workspace-grid">
@@ -1433,7 +1473,12 @@ function PlanPanel({
   onReport: () => void;
 }) {
   return (
-    <section className="card plan-card">
+    <section
+      className="card plan-card"
+      id="response-plan"
+      tabIndex={-1}
+      aria-label="Response plan"
+    >
       <div className="panel-heading">
         <div className="title-icon">
           <ShieldCheck size={20} />
