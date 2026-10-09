@@ -1,0 +1,198 @@
+export type Zone = {
+  id: string;
+  name: string;
+  scale: string;
+  population: number;
+  demand: number;
+  demand_multiplier: number;
+  supply_capacity: number;
+  supply_available: number;
+  supply: number;
+  storage_capacity: number;
+  storage: number;
+  reserve: number;
+  critical_demand: number;
+  priority: number;
+  minimum_service: number;
+  supply_loss: number;
+  temperature: number;
+  humidity: number;
+  centroid: [number, number];
+  environmental_source: string;
+  source_timestamp: string;
+};
+export type Connection = {
+  id: string;
+  source: string;
+  target: string;
+  bidirectional: boolean;
+  capacity: number;
+  available: boolean;
+  control: "open" | "restricted" | "closed";
+  loss: number;
+  repair_hours: number;
+  repair_cost: number;
+};
+export type Station = {
+  id: string;
+  name: string;
+  zone_id: string;
+  coordinates: [number, number];
+  type: "cooling" | "drinking";
+  opens: number;
+  closes: number;
+  timezone: string;
+  open: boolean;
+  accessible: boolean;
+  capacity: number;
+  occupancy: number;
+  water_available: boolean;
+  added_demand: number;
+  priority: number;
+  verified_at: string;
+  synthetic: boolean;
+};
+export type Scenario = {
+  scenario_id: string;
+  scenario_version: number;
+  name: string;
+  description: string;
+  synthetic: true;
+  seed: number;
+  zones: Zone[];
+  connections: Connection[];
+  stations: Station[];
+  observation_mode: string;
+  recovery_at_hour: number | null;
+  recovered_supply: Record<string, number>;
+};
+export type ZoneState = {
+  id: string;
+  storage: number;
+  requested: number;
+  delivered: number;
+  unmet: number;
+  critical_requested: number;
+  critical_served: number;
+  external: number;
+  supply_loss: number;
+  incoming: number;
+  outgoing: number;
+  connection_loss: number;
+  overflow: number;
+  storage_change: number;
+  time_to_reserve: number | null;
+  condition: string;
+  reasons: string[];
+};
+export type Totals = {
+  external: number;
+  delivered: number;
+  requested: number;
+  losses: number;
+  overflow: number;
+  unmet: number;
+  ending_storage: number;
+  starting_storage: number;
+  critical_percent: number;
+  critical_requested: number;
+  critical_served: number;
+  below_reserve: number;
+};
+export type Result = {
+  scenario_id: string;
+  scenario_version: number;
+  model_version: string;
+  horizon: number;
+  step_hours: number;
+  totals: Totals;
+  verified: boolean;
+  max_mass_residual: number;
+  elapsed_ms: number;
+  initial_zones?: { id: string; storage: number }[];
+  time_series: {
+    hour: number;
+    zones: ZoneState[];
+    connections: {
+      connection_id: string;
+      source: string;
+      target: string;
+      rate: number;
+      loss: number;
+    }[];
+    mass_residual: number;
+  }[];
+};
+export type Plan = {
+  plan_version: number;
+  scenario_version: number;
+  feasible: boolean;
+  violations: string[];
+  actions: { type: string; target: string; value: number; at_hour: number }[];
+  reasons: string[];
+  mode: string;
+  uncertainty?: string;
+  verified_totals: Totals;
+  alternatives: {
+    actions: unknown[];
+    feasible: boolean;
+    violations: string[];
+    totals: Totals;
+  }[];
+  candidate_sites: {
+    zone_id: string;
+    proposal: boolean;
+    feasible: boolean;
+    footfall: number;
+    added_demand: number;
+  }[];
+};
+export type Run = {
+  run_id: string;
+  scenario_id: string;
+  scenario_version: number;
+  status: string;
+  horizon: number;
+  agents_active: boolean;
+  event_seq: number;
+  agent_mode?: string;
+  llm_calls?: number;
+  provider_error?: string;
+  elapsed_seconds?: number;
+  baseline_totals?: Totals;
+  result_totals?: Totals;
+};
+export type RunEvent = {
+  seq: number;
+  kind: string;
+  message: string;
+  timestamp: number;
+  detail: Record<string, unknown>;
+  run_id: string;
+};
+export type Results = {
+  scenario?: Scenario;
+  baseline: Result | null;
+  approved: Result | null;
+  plan: Plan | null;
+  agent: {
+    candidates?: {
+      hypothesis: string;
+      zone_id: string;
+      fit_mse: number | null;
+      compared_samples: number;
+    }[];
+    negotiation?: {
+      zone_id: string;
+      round: number;
+      request_rate: number;
+      offer_rate: number;
+      reason: string;
+      decision_mode?: string;
+    }[];
+    negotiation_mode?: string;
+    negotiation_fallback_reasons?: string[];
+    mode: string;
+    evidence: unknown[];
+  } | null;
+};

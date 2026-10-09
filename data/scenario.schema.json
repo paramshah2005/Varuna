@@ -1,0 +1,446 @@
+{
+  "$defs": {
+    "Connection": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-F]-[A-F]$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "bidirectional": {
+          "default": true,
+          "title": "Bidirectional",
+          "type": "boolean"
+        },
+        "capacity": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Capacity",
+          "type": "number"
+        },
+        "available": {
+          "default": true,
+          "title": "Available",
+          "type": "boolean"
+        },
+        "control": {
+          "default": "open",
+          "enum": [
+            "open",
+            "restricted",
+            "closed"
+          ],
+          "title": "Control",
+          "type": "string"
+        },
+        "loss": {
+          "maximum": 0.8,
+          "minimum": 0,
+          "title": "Loss",
+          "type": "number"
+        },
+        "repair_hours": {
+          "exclusiveMinimum": 0,
+          "maximum": 12,
+          "title": "Repair Hours",
+          "type": "number"
+        },
+        "repair_cost": {
+          "minimum": 0,
+          "title": "Repair Cost",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "capacity",
+        "loss",
+        "repair_hours",
+        "repair_cost"
+      ],
+      "title": "Connection",
+      "type": "object"
+    },
+    "Station": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "zone_id": {
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "coordinates": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "cooling",
+            "drinking"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "opens": {
+          "maximum": 23,
+          "minimum": 0,
+          "title": "Opens",
+          "type": "integer"
+        },
+        "closes": {
+          "maximum": 24,
+          "minimum": 1,
+          "title": "Closes",
+          "type": "integer"
+        },
+        "timezone": {
+          "default": "Asia/Kolkata",
+          "title": "Timezone",
+          "type": "string"
+        },
+        "open": {
+          "title": "Open",
+          "type": "boolean"
+        },
+        "accessible": {
+          "title": "Accessible",
+          "type": "boolean"
+        },
+        "capacity": {
+          "exclusiveMinimum": 0,
+          "title": "Capacity",
+          "type": "integer"
+        },
+        "occupancy": {
+          "minimum": 0,
+          "title": "Occupancy",
+          "type": "integer"
+        },
+        "water_available": {
+          "title": "Water Available",
+          "type": "boolean"
+        },
+        "added_demand": {
+          "minimum": 0,
+          "title": "Added Demand",
+          "type": "number"
+        },
+        "priority": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "verified_at": {
+          "default": "2026-10-09T06:00:00Z",
+          "title": "Verified At",
+          "type": "string"
+        },
+        "synthetic": {
+          "default": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "zone_id",
+        "coordinates",
+        "type",
+        "opens",
+        "closes",
+        "open",
+        "accessible",
+        "capacity",
+        "occupancy",
+        "water_available",
+        "added_demand",
+        "priority"
+      ],
+      "title": "Station",
+      "type": "object"
+    },
+    "Zone": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-F]$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "scale": {
+          "const": "neighborhood",
+          "default": "neighborhood",
+          "title": "Scale",
+          "type": "string"
+        },
+        "population": {
+          "exclusiveMinimum": 0,
+          "maximum": 100000,
+          "title": "Population",
+          "type": "integer"
+        },
+        "demand": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Demand",
+          "type": "number"
+        },
+        "demand_multiplier": {
+          "maximum": 3,
+          "minimum": 0.5,
+          "title": "Demand Multiplier",
+          "type": "number"
+        },
+        "supply_capacity": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Supply Capacity",
+          "type": "number"
+        },
+        "supply_available": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Supply Available",
+          "type": "number"
+        },
+        "supply": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Supply",
+          "type": "number"
+        },
+        "storage_capacity": {
+          "exclusiveMinimum": 0,
+          "maximum": 10000,
+          "title": "Storage Capacity",
+          "type": "number"
+        },
+        "storage": {
+          "minimum": 0,
+          "title": "Storage",
+          "type": "number"
+        },
+        "reserve": {
+          "minimum": 0,
+          "title": "Reserve",
+          "type": "number"
+        },
+        "critical_demand": {
+          "minimum": 0,
+          "title": "Critical Demand",
+          "type": "number"
+        },
+        "priority": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "minimum_service": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Service",
+          "type": "number"
+        },
+        "supply_loss": {
+          "maximum": 0.8,
+          "minimum": 0,
+          "title": "Supply Loss",
+          "type": "number"
+        },
+        "temperature": {
+          "maximum": 55,
+          "minimum": -10,
+          "title": "Temperature",
+          "type": "number"
+        },
+        "humidity": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Humidity",
+          "type": "number"
+        },
+        "centroid": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Centroid",
+          "type": "array"
+        },
+        "environmental_source": {
+          "default": "synthetic demo",
+          "title": "Environmental Source",
+          "type": "string"
+        },
+        "source_timestamp": {
+          "default": "2026-10-09T06:00:00Z",
+          "title": "Source Timestamp",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "population",
+        "demand",
+        "demand_multiplier",
+        "supply_capacity",
+        "supply_available",
+        "supply",
+        "storage_capacity",
+        "storage",
+        "reserve",
+        "critical_demand",
+        "priority",
+        "minimum_service",
+        "supply_loss",
+        "temperature",
+        "humidity",
+        "centroid"
+      ],
+      "title": "Zone",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scenario_id": {
+      "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "scenario_version": {
+      "minimum": 1,
+      "title": "Scenario Version",
+      "type": "integer"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/Zone"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Zones",
+      "type": "array"
+    },
+    "connections": {
+      "items": {
+        "$ref": "#/$defs/Connection"
+      },
+      "maxItems": 15,
+      "title": "Connections",
+      "type": "array"
+    },
+    "stations": {
+      "items": {
+        "$ref": "#/$defs/Station"
+      },
+      "maxItems": 50,
+      "title": "Stations",
+      "type": "array"
+    },
+    "observation_mode": {
+      "default": "complete",
+      "enum": [
+        "complete",
+        "missing",
+        "faulty"
+      ],
+      "title": "Observation Mode",
+      "type": "string"
+    },
+    "recovery_at_hour": {
+      "anyOf": [
+        {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recovery At Hour"
+    },
+    "recovered_supply": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Recovered Supply",
+      "type": "object"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "scenario_version",
+    "name",
+    "description",
+    "seed",
+    "zones",
+    "connections",
+    "stations"
+  ],
+  "title": "Scenario",
+  "type": "object"
+}

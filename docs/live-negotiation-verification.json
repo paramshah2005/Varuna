@@ -1,0 +1,371 @@
+{
+  "checked_at": "2026-10-09T13:31:10.831Z",
+  "environment": "local Windows backend with live Groq; no AWS resources deployed",
+  "run_id": "524eb782-a86f-5744-82f4-0b9d8c782fe4",
+  "scenario_id": "compound",
+  "scenario_version": 1,
+  "horizon": 6,
+  "status": "completed",
+  "agent_mode": "live Groq investigation and zone proposals + deterministic verification",
+  "negotiation_mode": "live Groq zone negotiation + deterministic coordinator",
+  "logical_agent_execution": "Six zone roles batched into one completion per round; deterministic transfer coordinator",
+  "llm_calls": 3,
+  "provider_usage": {
+    "prompt_tokens": 2831,
+    "completion_tokens": 767,
+    "total_tokens": 3598
+  },
+  "quota_headers": {
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "995",
+    "x-ratelimit-remaining-tokens": "4607",
+    "x-ratelimit-reset-requests": "7m12s",
+    "x-ratelimit-reset-tokens": "25.447s"
+  },
+  "provider_calls": {
+    "investigation": {
+      "status": "completed",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "completion_tokens": 84,
+        "prompt_tokens": 913,
+        "total_tokens": 997,
+        "completion_time": 0.091770934,
+        "completion_tokens_details": {
+          "reasoning_tokens": 43
+        },
+        "prompt_time": 0.059513944,
+        "prompt_tokens_details": null,
+        "queue_time": 0.307740279,
+        "total_time": 0.151284878
+      }
+    },
+    "negotiation-round-1": {
+      "status": "completed",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "completion_tokens": 319,
+        "prompt_tokens": 862,
+        "total_tokens": 1181,
+        "completion_time": 0.349385974,
+        "completion_tokens_details": {
+          "reasoning_tokens": 118
+        },
+        "prompt_time": 0.06906079,
+        "prompt_tokens_details": null,
+        "queue_time": 0.340723093,
+        "total_time": 0.418446764
+      },
+      "arguments": {
+        "proposals": [
+          {
+            "zone_id": "A",
+            "request_rate": 0,
+            "offer_rate": 1.0975,
+            "reason": "Maintain supply stability while sharing surplus with neighbors."
+          },
+          {
+            "zone_id": "B",
+            "request_rate": 10.833,
+            "offer_rate": 0,
+            "reason": "High demand, no surplus to offer."
+          },
+          {
+            "zone_id": "C",
+            "request_rate": 0,
+            "offer_rate": 2.513,
+            "reason": "Share surplus to support connected zones."
+          },
+          {
+            "zone_id": "D",
+            "request_rate": 0,
+            "offer_rate": 0,
+            "reason": "No surplus or demand."
+          },
+          {
+            "zone_id": "E",
+            "request_rate": 11.733,
+            "offer_rate": 0,
+            "reason": "Urgent need, no surplus."
+          },
+          {
+            "zone_id": "F",
+            "request_rate": 0,
+            "offer_rate": 3.043,
+            "reason": "Provide surplus to adjacent zones."
+          }
+        ]
+      }
+    },
+    "negotiation-round-2": {
+      "status": "completed",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "completion_tokens": 364,
+        "prompt_tokens": 1056,
+        "total_tokens": 1420,
+        "completion_time": 0.392401275,
+        "completion_tokens_details": {
+          "reasoning_tokens": 165
+        },
+        "prompt_time": 0.061941524,
+        "prompt_tokens_details": null,
+        "queue_time": 0.379848833,
+        "total_time": 0.454342799
+      },
+      "arguments": {
+        "proposals": [
+          {
+            "zone_id": "A",
+            "request_rate": 0,
+            "offer_rate": 1.097,
+            "reason": "Maintain surplus to support B and C"
+          },
+          {
+            "zone_id": "B",
+            "request_rate": 3.6475,
+            "offer_rate": 0,
+            "reason": "Need additional water to meet demand after receiving from A"
+          },
+          {
+            "zone_id": "C",
+            "request_rate": 0,
+            "offer_rate": 2.513,
+            "reason": "Continue supplying F and B"
+          },
+          {
+            "zone_id": "D",
+            "request_rate": 0,
+            "offer_rate": 0,
+            "reason": "No surplus or demand"
+          },
+          {
+            "zone_id": "E",
+            "request_rate": 4.3755,
+            "offer_rate": 0,
+            "reason": "Require water to balance after receiving from F"
+          },
+          {
+            "zone_id": "F",
+            "request_rate": 0,
+            "offer_rate": 3.043,
+            "reason": "Continue supplying E and C"
+          }
+        ]
+      }
+    }
+  },
+  "negotiation": [
+    {
+      "round": 1,
+      "zone_id": "A",
+      "request_rate": 0,
+      "offer_rate": 1.0975,
+      "maximum_offer_rate": 2.195374149659853,
+      "maximum_request_rate": 0,
+      "reason": "Maintain supply stability while sharing surplus with neighbors.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 1,
+      "zone_id": "B",
+      "request_rate": 10.833,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 10.833333333333334,
+      "reason": "High demand, no surplus to offer.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 1,
+      "zone_id": "C",
+      "request_rate": 0,
+      "offer_rate": 2.513,
+      "maximum_offer_rate": 5.026666666666681,
+      "maximum_request_rate": 0,
+      "reason": "Share surplus to support connected zones.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 1,
+      "zone_id": "D",
+      "request_rate": 0,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 0,
+      "reason": "No surplus or demand.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 1,
+      "zone_id": "E",
+      "request_rate": 11.733,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 11.73333333333332,
+      "reason": "Urgent need, no surplus.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 1,
+      "zone_id": "F",
+      "request_rate": 0,
+      "offer_rate": 3.043,
+      "maximum_offer_rate": 6.086666666666605,
+      "maximum_request_rate": 0,
+      "reason": "Provide surplus to adjacent zones.",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "A",
+      "request_rate": 0,
+      "offer_rate": 1.097,
+      "maximum_offer_rate": 1.0978741496598532,
+      "maximum_request_rate": 0,
+      "reason": "Maintain surplus to support B and C",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "B",
+      "request_rate": 3.6475,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 7.295043333333334,
+      "reason": "Need additional water to meet demand after receiving from A",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "C",
+      "request_rate": 0,
+      "offer_rate": 2.513,
+      "maximum_offer_rate": 2.5136666666666807,
+      "maximum_request_rate": 0,
+      "reason": "Continue supplying F and B",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "D",
+      "request_rate": 0,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 0,
+      "reason": "No surplus or demand",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "E",
+      "request_rate": 4.3755,
+      "offer_rate": 0,
+      "maximum_offer_rate": 0,
+      "maximum_request_rate": 8.751193333333319,
+      "reason": "Require water to balance after receiving from F",
+      "decision_mode": "live Groq zone proposal"
+    },
+    {
+      "round": 2,
+      "zone_id": "F",
+      "request_rate": 0,
+      "offer_rate": 3.043,
+      "maximum_offer_rate": 3.0436666666666046,
+      "maximum_request_rate": 0,
+      "reason": "Continue supplying E and C",
+      "decision_mode": "live Groq zone proposal"
+    }
+  ],
+  "negotiated_transfers": [
+    {
+      "round": 1,
+      "connection_id": "A-B",
+      "donor": "A",
+      "receiver": "B",
+      "outflow_rate": 1.0975,
+      "inflow_rate": 1.07555,
+      "loss_rate": 0.021949999999999914
+    },
+    {
+      "round": 1,
+      "connection_id": "B-C",
+      "donor": "C",
+      "receiver": "B",
+      "outflow_rate": 2.513,
+      "inflow_rate": 2.4627399999999997,
+      "loss_rate": 0.05026000000000019
+    },
+    {
+      "round": 1,
+      "connection_id": "E-F",
+      "donor": "F",
+      "receiver": "E",
+      "outflow_rate": 3.043,
+      "inflow_rate": 2.9821400000000002,
+      "loss_rate": 0.060859999999999914
+    },
+    {
+      "round": 2,
+      "connection_id": "A-B",
+      "donor": "A",
+      "receiver": "B",
+      "outflow_rate": 1.097,
+      "inflow_rate": 1.07506,
+      "loss_rate": 0.02194000000000007
+    },
+    {
+      "round": 2,
+      "connection_id": "B-C",
+      "donor": "C",
+      "receiver": "B",
+      "outflow_rate": 2.513,
+      "inflow_rate": 2.4627399999999997,
+      "loss_rate": 0.05026000000000019
+    },
+    {
+      "round": 2,
+      "connection_id": "E-F",
+      "donor": "F",
+      "receiver": "E",
+      "outflow_rate": 3.043,
+      "inflow_rate": 2.9821400000000002,
+      "loss_rate": 0.060859999999999914
+    }
+  ],
+  "negotiation_candidate_feasible": false,
+  "baseline": {
+    "external": 1194,
+    "delivered": 1819.52,
+    "requested": 1827,
+    "losses": 60.0277551020408,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 7.480000000000018,
+    "ending_storage": 379.4522448979589,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 2
+  },
+  "approved": {
+    "external": 2052,
+    "delivered": 1827,
+    "requested": 1827,
+    "losses": 152.353469387755,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 0,
+    "ending_storage": 1137.6465306122443,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 0
+  },
+  "max_mass_residual": 1.936228954946273e-13,
+  "agent_elapsed_ms": 3963.6102998629212,
+  "simulation_elapsed_ms": 5.099799949675798,
+  "elapsed_including_operator_approval_seconds": 55.721885204315186,
+  "report_reopened": true
+}

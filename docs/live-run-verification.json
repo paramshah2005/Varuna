@@ -1,0 +1,65 @@
+{
+  "checked_at": "2026-10-09T10:34:34.147Z",
+  "environment": "local Windows backend; live Groq inference; no deployed AWS resources",
+  "run_id": "64be15de-ae12-5445-a3d8-badbef903d88",
+  "scenario_id": "compound",
+  "scenario_version": 3,
+  "status": "completed",
+  "accepted_ms": 24,
+  "agent_mode": "live Groq tool selection + deterministic verification",
+  "llm_calls": 1,
+  "provider_usage": {
+    "completion_tokens": 348,
+    "prompt_tokens": 649,
+    "total_tokens": 997,
+    "completion_time": 0.410405459,
+    "completion_tokens_details": {
+      "reasoning_tokens": 307
+    },
+    "prompt_time": 0.037984718,
+    "prompt_tokens_details": null,
+    "queue_time": 0.329412499,
+    "total_time": 0.448390177
+  },
+  "quota_headers": {
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "7124",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "6.57s"
+  },
+  "rejected_candidates": 14,
+  "baseline": {
+    "external": 1194,
+    "delivered": 1845.3799999999999,
+    "requested": 1870.5,
+    "losses": 59.64091836734694,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 25.12000000000012,
+    "ending_storage": 353.9790816326528,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 4
+  },
+  "approved": {
+    "external": 2052,
+    "delivered": 1870.5,
+    "requested": 1870.5,
+    "losses": 152.353469387755,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 0,
+    "ending_storage": 1094.1465306122443,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 0
+  },
+  "max_mass_residual": 1.936228954946273e-13,
+  "simulation_elapsed_ms": 8.472599787637591,
+  "elapsed_including_operator_approval_seconds": 383.3714098930359,
+  "report_reopened": true
+}

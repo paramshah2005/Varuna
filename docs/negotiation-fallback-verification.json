@@ -1,0 +1,94 @@
+{
+  "checked_at": "2026-10-09T13:27:44.508Z",
+  "run_id": "b2e4a51b-6c56-56af-9230-dd14c68442fd",
+  "mode": "mixed live Groq proposals + deterministic fallback",
+  "llm_calls": 3,
+  "provider_usage": {
+    "prompt_tokens": 1755,
+    "completion_tokens": 1322,
+    "total_tokens": 3077
+  },
+  "rounds": {
+    "investigation": {
+      "status": "completed",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "completion_tokens": 413,
+        "prompt_tokens": 913,
+        "total_tokens": 1326,
+        "completion_time": 0.476659466,
+        "completion_tokens_details": {
+          "reasoning_tokens": 372
+        },
+        "prompt_time": 0.052569817,
+        "prompt_tokens_details": null,
+        "queue_time": 0.325192891,
+        "total_time": 0.529229283
+      }
+    },
+    "negotiation-round-1": {
+      "status": "completed",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "completion_tokens": 909,
+        "prompt_tokens": 842,
+        "total_tokens": 1751,
+        "completion_time": 0.993514994,
+        "completion_tokens_details": {
+          "reasoning_tokens": 707
+        },
+        "prompt_time": 0.042658362,
+        "prompt_tokens_details": null,
+        "queue_time": 0.331160392,
+        "total_time": 1.036173356
+      },
+      "arguments": {
+        "proposals": [
+          {
+            "zone_id": "A",
+            "request_rate": 0,
+            "offer_rate": 1.0975,
+            "reason": "Offering surplus to support neighboring high-demand zones."
+          },
+          {
+            "zone_id": "B",
+            "request_rate": 5.4165,
+            "offer_rate": 0,
+            "reason": "Requesting power to meet high demand."
+          },
+          {
+            "zone_id": "C",
+            "request_rate": 0,
+            "offer_rate": 2.513,
+            "reason": "Providing surplus to low-demand neighbors."
+          },
+          {
+            "zone_id": "D",
+            "request_rate": 0,
+            "offer_rate": 0,
+            "reason": "No surplus or demand."
+          },
+          {
+            "zone_id": "E",
+            "request_rate": 5.8665,
+            "offer_rate": 0,
+            "reason": "High demand zone needs support."
+          },
+          {
+            "zone_id": "F",
+            "request_rate": 0,
+            "offer_rate": 3.043,
+            "reason": "Providing surplus to adjacent zones."
+          }
+        ]
+      }
+    },
+    "negotiation-round-2": {
+      "status": "failed",
+      "model": "openai/gpt-oss-20b",
+      "error": "BadRequestError"
+    }
+  },
+  "synthetic": true,
+  "environment": "local backend with live Groq; no AWS deployment"
+}

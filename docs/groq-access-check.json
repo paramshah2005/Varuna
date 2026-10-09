@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-09T09:35:45.163Z",
+  "model": "openai/gpt-oss-20b",
+  "http_status": 200,
+  "elapsed_ms": 739,
+  "tool_call": [
+    {
+      "id": "fc_2b0500a3-6e40-43f4-aad6-8edbebdb32ea",
+      "type": "function",
+      "function": {
+        "name": "get_zone_state",
+        "arguments": "{\"zone_id\":\"E\"}"
+      }
+    }
+  ],
+  "usage": {
+    "queue_time": 0.385596647,
+    "prompt_tokens": 157,
+    "prompt_time": 0.011411365,
+    "completion_tokens": 41,
+    "completion_time": 0.04150694,
+    "total_tokens": 198,
+    "total_time": 0.052918305,
+    "completion_tokens_details": {
+      "reasoning_tokens": 16
+    }
+  },
+  "limits": {
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "7587",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "3.097s"
+  }
+}

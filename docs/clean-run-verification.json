@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-10-09T11:27:04.261Z",
+  "environment": "local Windows backend; live Groq inference; no deployed AWS resources",
+  "run_id": "42698eab-a080-52e1-957d-3f09b5713161",
+  "scenario_id": "compound",
+  "scenario_version": 1,
+  "horizon": 6,
+  "status": "completed",
+  "accepted_ms": null,
+  "accepted_latency_note": "Run started through the UI; HTTP latency was not measured for this showcase.",
+  "agent_mode": "live Groq tool selection + deterministic verification",
+  "llm_calls": 1,
+  "provider_usage": {
+    "completion_tokens": 353,
+    "prompt_tokens": 913,
+    "total_tokens": 1266,
+    "completion_time": 0.35913302,
+    "completion_tokens_details": {
+      "reasoning_tokens": 312
+    },
+    "prompt_time": 0.048425665,
+    "prompt_tokens_details": null,
+    "queue_time": 0.385915504,
+    "total_time": 0.407558685
+  },
+  "quota_headers": {
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "995",
+    "x-ratelimit-remaining-tokens": "6899",
+    "x-ratelimit-reset-requests": "7m12s",
+    "x-ratelimit-reset-tokens": "8.257s"
+  },
+  "rejected_candidates": 7,
+  "baseline": {
+    "external": 1194,
+    "delivered": 1819.52,
+    "requested": 1827,
+    "losses": 60.0277551020408,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 7.480000000000018,
+    "ending_storage": 379.4522448979589,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 2
+  },
+  "approved": {
+    "external": 2052,
+    "delivered": 1827,
+    "requested": 1827,
+    "losses": 152.353469387755,
+    "overflow": 0,
+    "critical_requested": 468,
+    "critical_served": 468,
+    "unmet": 0,
+    "ending_storage": 1137.6465306122443,
+    "starting_storage": 1065,
+    "critical_percent": 100,
+    "below_reserve": 0
+  },
+  "max_mass_residual": 1.936228954946273e-13,
+  "simulation_elapsed_ms": 5.064700031653047,
+  "agent_elapsed_ms": 2499.6063001453876,
+  "elapsed_including_operator_approval_seconds": 17.86928653717041,
+  "report_reopened": true,
+  "saved_run_reopened_in_browser": true,
+  "ui_report_download_verified": false
+}

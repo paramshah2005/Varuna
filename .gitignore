@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+.pytest_cache/
+.local/
+cdk.out/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+*.zip
+backend/package/
+.hypothesis/
+pytest-of-*/
+*.tsbuildinfo
