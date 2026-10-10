@@ -7,6 +7,7 @@ from backend.simulation.models import Action, Scenario
 
 MODEL_VERSION = "zone-balance-1.0.0"
 STEP_HOURS = 0.25
+SUPPORTED_HORIZONS = frozenset({3, 6, 12})
 
 
 def configuration_hash(scenario, horizon, actions=()):
@@ -56,12 +57,13 @@ def validate_actions(scenario, actions):
 
 
 def simulate(scenario: Scenario, horizon: int = 6, actions: list[Action] | None = None):
-    if horizon not in {3, 6, 12}:
+    if horizon not in SUPPORTED_HORIZONS:
         raise ValueError("Horizon must be 3, 6, or 12 hours")
     started = time.perf_counter()
     actions = actions or []
     validate_actions(scenario, actions)
     zones = sorted(scenario.zones, key=lambda z: z.id)
+    zone_count = len(zones)
     index = {z.id: i for i, z in enumerate(zones)}
     storage = np.array([z.storage for z in zones], dtype=float)
     capacity = np.array([z.storage_capacity for z in zones])
@@ -86,7 +88,7 @@ def simulate(scenario: Scenario, horizon: int = 6, actions: list[Action] | None 
         if scenario.recovery_at_hour is not None and hour >= scenario.recovery_at_hour:
             for zid, value in scenario.recovered_supply.items():
                 supply[index[zid]] = value
-        extra_demand = np.zeros(6)
+        extra_demand = np.zeros(zone_count)
         for a in actions:
             if hour >= a.at_hour:
                 if a.type == "supply":
@@ -98,9 +100,9 @@ def simulate(scenario: Scenario, horizon: int = 6, actions: list[Action] | None 
         pool = storage + gross - supply_loss
         requested = (demand_rate + extra_demand) * STEP_HOURS
         critical = critical_rate * STEP_HOURS
-        incoming = np.zeros(6)
-        outgoing = np.zeros(6)
-        connection_loss = np.zeros(6)
+        incoming = np.zeros(zone_count)
+        outgoing = np.zeros(zone_count)
+        connection_loss = np.zeros(zone_count)
         flows = []
         for c in sorted(scenario.connections, key=lambda c: c.id):
             limit = c.capacity if c.available and c.control != "closed" else 0.0
@@ -271,15 +273,19 @@ def simulate(scenario: Scenario, horizon: int = 6, actions: list[Action] | None 
 def verify_plan(scenario, horizon, actions):
     result = simulate(scenario, horizon, actions)
     violations = []
+    zones_by_id = {zone.id: zone for zone in scenario.zones}
     for row in result["time_series"]:
         for state in row["zones"]:
-            z = next(z for z in scenario.zones if z.id == state["id"])
+            zone = zones_by_id[state["id"]]
             if state["critical_served"] + 1e-8 < state["critical_requested"]:
                 violations.append(
-                    f"{z.id}: essential demand deficit at {row['hour']:g} h"
+                    f"{zone.id}: essential demand deficit at {row['hour']:g} h"
                 )
-            if state["delivered"] + 1e-8 < state["requested"] * z.minimum_service:
+            if (
+                state["delivered"] + 1e-8
+                < state["requested"] * zone.minimum_service
+            ):
                 violations.append(
-                    f"{z.id}: minimum service violated at {row['hour']:g} h"
+                    f"{zone.id}: minimum service violated at {row['hour']:g} h"
                 )
     return dict(feasible=not violations, violations=violations[:24], result=result)

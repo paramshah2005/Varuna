@@ -6,6 +6,36 @@ from backend.simulation.engine import configuration_hash, simulate, verify_plan
 from backend.api.public import available_stations
 
 
+TOOL_NAMES = frozenset(
+    {
+        "get_zone_state",
+        "get_observation_history",
+        "compare_baseline",
+        "simulate_candidate_fault",
+        "forecast_storage",
+        "evaluate_isolation_options",
+        "propose_zone_allocation",
+        "simulate_supply_schedule",
+        "evaluate_recovery_sequence",
+        "validate_plan",
+        "evaluate_water_point_site",
+        "get_available_stations",
+        "save_incident_report",
+    }
+)
+ZONE_REQUIRED_TOOLS = frozenset(
+    {"get_zone_state", "simulate_candidate_fault", "evaluate_water_point_site"}
+)
+PLAN_VALIDATION_TOOLS = frozenset(
+    {
+        "validate_plan",
+        "simulate_supply_schedule",
+        "evaluate_recovery_sequence",
+        "propose_zone_allocation",
+    }
+)
+
+
 class ToolArguments(StrictModel):
     zone_id: str | None = Field(default=None, pattern=r"^[A-F]$")
     connection_id: str | None = Field(default=None, pattern=r"^[A-F]-[A-F]$")
@@ -66,41 +96,20 @@ class ToolRegistry:
         self.history = history
         self.evidence = evidence if evidence is not None else []
         self.cache = {}
-        self.names = [
-            "get_zone_state",
-            "get_observation_history",
-            "compare_baseline",
-            "simulate_candidate_fault",
-            "forecast_storage",
-            "evaluate_isolation_options",
-            "propose_zone_allocation",
-            "simulate_supply_schedule",
-            "evaluate_recovery_sequence",
-            "validate_plan",
-            "evaluate_water_point_site",
-            "get_available_stations",
-            "save_incident_report",
-        ]
+        self.zones_by_id = {zone.id: zone for zone in scenario.zones}
+        self.connections_by_id = {
+            connection.id: connection for connection in scenario.connections
+        }
 
     def call(self, name, arguments):
-        if name not in self.names:
+        if name not in TOOL_NAMES:
             raise ValueError("Unknown tool")
         args = ToolArguments.model_validate(arguments)
-        zone = next((z for z in self.scenario.zones if z.id == args.zone_id), None)
-        edge = next(
-            (c for c in self.scenario.connections if c.id == args.connection_id), None
-        )
+        zone = self.zones_by_id.get(args.zone_id)
+        edge = self.connections_by_id.get(args.connection_id)
         if args.connection_id and edge is None:
             raise ValueError("Unknown connection")
-        if (
-            name
-            in {
-                "get_zone_state",
-                "simulate_candidate_fault",
-                "evaluate_water_point_site",
-            }
-            and zone is None
-        ):
+        if name in ZONE_REQUIRED_TOOLS and zone is None:
             raise ValueError("Tool requires a valid zone")
         key = (
             configuration_hash(self.scenario, self.horizon, args.actions)
@@ -224,12 +233,7 @@ class ToolRegistry:
                         totals=check["result"]["totals"],
                     )
                 )
-        elif name in {
-            "validate_plan",
-            "simulate_supply_schedule",
-            "evaluate_recovery_sequence",
-            "propose_zone_allocation",
-        }:
+        elif name in PLAN_VALIDATION_TOOLS:
             check = verify_plan(self.scenario, self.horizon, args.actions)
             graph = nx.DiGraph()
             graph.add_nodes_from(z.id for z in self.scenario.zones)

@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { api, contiguousSequence, mergeEvents } from "./api";
 import type { Results, Run, RunEvent } from "../types";
+
+function emptyResults(): Results {
+  return {
+    baseline: null,
+    approved: null,
+    plan: null,
+    agent: null,
+  };
+}
+
 export function useRun(runId: string | null) {
   const [run, setRun] = useState<Run | null>(null),
-    [results, setResults] = useState<Results>({
-      baseline: null,
-      approved: null,
-      plan: null,
-      agent: null,
-    }),
+    [results, setResults] = useState<Results>(emptyResults),
     [events, setEvents] = useState<RunEvent[]>([]),
     [error, setError] = useState(""),
     [transport, setTransport] = useState("Polling");
@@ -17,7 +22,7 @@ export function useRun(runId: string | null) {
     statusRef = useRef("");
   useEffect(() => {
     setRun(null);
-    setResults({ baseline: null, approved: null, plan: null, agent: null });
+    setResults(emptyResults());
     setEvents([]);
     setError("");
     eventsRef.current = [];
